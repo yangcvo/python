@@ -1,0 +1,88 @@
+[root@pc197 tools]# wget http://pexpect.sourceforge.net/pexpect-2.3.tar.gz
+--2014-02-28 11:14:25--  http://pexpect.sourceforge.net/pexpect-2.3.tar.gz
+Resolving pexpect.sourceforge.net... 216.34.181.96
+Connecting to pexpect.sourceforge.net|216.34.181.96|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 150868 (147K) [application/x-gzip]
+Saving to: `pexpect-2.3.tar.gz'
+
+
+100%[========================================================>] 150,868      116K/s   in 1.3s    
+
+
+2014-02-28 11:14:28 (116 KB/s) - `pexpect-2.3.tar.gz' saved [150868/150868]
+
+
+[root@pc197 tools]# tar xzf pexpect-2.3.tar.gz
+[root@pc197 tools]# cd pexpect-2.3
+[root@pc197 pexpect-2.3]# ll
+total 220
+-rw-r--r-- 1 1000 1000 10842 Dec 17  2007 ANSI.py
+drwxr-xr-x 2 1000 1000  4096 Jan  6  2008 doc
+drwxr-xr-x 2 1000 1000  4096 Jan  6  2008 examples
+-rw-r--r-- 1 1000 1000  2488 Dec 27  2007 fdpexpect.py
+-rw-r--r-- 1 1000 1000 13318 Dec 17  2007 FSM.py
+-rw-r--r-- 1 1000 1000  1450 Jan  4  2007 INSTALL
+-rw-r--r-- 1 1000 1000  1110 Dec 17  2007 LICENSE
+-rw-r--r-- 1 1000 1000 75937 Dec 27  2007 pexpect.py
+-rw-r--r-- 1 1000 1000   287 Jan  6  2008 PKG-INFO
+-rw-r--r-- 1 1000 1000 14565 Aug 30  2007 pxssh.py
+-rw-r--r-- 1 1000 1000  2301 Dec 18  2007 README
+-rw-r--r-- 1 1000 1000 10402 Jul 13  2007 screen.py
+-rwxr-xr-x 1 1000 1000  1452 Jan  6  2008 setup.py
+[root@pc197 pexpect-2.3]# python ./setup.py install
+running install
+running build
+running build_py
+creating build
+creating build/lib
+copying pexpect.py -> build/lib
+copying pxssh.py -> build/lib
+copying fdpexpect.py -> build/lib
+copying FSM.py -> build/lib
+copying screen.py -> build/lib
+copying ANSI.py -> build/lib
+running install_lib
+copying build/lib/pexpect.py -> /usr/lib/python2.4/site-packages
+copying build/lib/screen.py -> /usr/lib/python2.4/site-packages
+copying build/lib/fdpexpect.py -> /usr/lib/python2.4/site-packages
+copying build/lib/pxssh.py -> /usr/lib/python2.4/site-packages
+copying build/lib/FSM.py -> /usr/lib/python2.4/site-packages
+copying build/lib/ANSI.py -> /usr/lib/python2.4/site-packages
+byte-compiling /usr/lib/python2.4/site-packages/pexpect.py to pexpect.pyc
+byte-compiling /usr/lib/python2.4/site-packages/screen.py to screen.pyc
+byte-compiling /usr/lib/python2.4/site-packages/fdpexpect.py to fdpexpect.pyc
+byte-compiling /usr/lib/python2.4/site-packages/pxssh.py to pxssh.pyc
+byte-compiling /usr/lib/python2.4/site-packages/FSM.py to FSM.pyc
+byte-compiling /usr/lib/python2.4/site-packages/ANSI.py to ANSI.pyc
+
+[root@pc197 pexpect-2.3]# 
+
+
+
+
+
+sendEmail的下载: http://caspian.dotconf.net/menu/Software/SendEmail/  
+  
+  ------------------  
+  Installation  
+  ------------------  
+    
+  SendEmail is a perl script/program, and only needs to be copied to a directory  
+  in your path to make it accessible.  Most likely the following steps will  
+  be sufficient:  
+    
+  1) Extract the package  
+      tar -zxvf sendEmail-v1.56.tar.gz
+    
+  2) Copy the sendEmail script to /usr/local/bin  
+      cp -a sendEmail-v1.56/sendEmail /usr/local/bin  
+    
+  3) Make sure its executable  
+      chmod +x /usr/local/bin/sendEmail  
+    
+  4) Run it  
+      sendEmail  
+        or  
+      /usr/local/bin/sendEmail  
+
