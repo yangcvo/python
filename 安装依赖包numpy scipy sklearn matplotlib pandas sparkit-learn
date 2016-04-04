@@ -1,0 +1,14 @@
+安装依赖包
+* yum -y install pycairo pycairo-devel gcc-c++ lapack blas lapack-devel blas-devel
+
+* pip install numpy scipy sklearn matplotlib pandas sparkit-learn
+
+
+numpy 如果安装不成功 可试着用 easy_install-2.7 numpy，其他包安装超时一样可以用easy安装
+
+其他包都依赖numpy 这个包
+
+pip install scipy sklearn matplotlib pandas sparkit-learn
+
+https://pypi.python.org/pypi/sparkit-learn#downloads
+
