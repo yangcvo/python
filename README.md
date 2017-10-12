@@ -141,3 +141,45 @@ Python 是一门简单易学且功能强大的编程语言。它拥有高效的�
 16.1.3. 交互式启动文件
 16.1.4. 定制模块
 Next 
+
+
+### 使用easy_install,ipython报错
+
+```bash
+[root@localhost setuptools-3.3]# easy_install pip
+Traceback (most recent call last):
+File "/usr/bin/easy_install", line 5, in <module>
+from pkg_resources import load_entry_point
+File "build/bdist.linux-i686/egg/pkg_resources.py", line 2749, in <module>
+
+File "build/bdist.linux-i686/egg/pkg_resources.py", line 446, in _build_master
+
+File "build/bdist.linux-i686/egg/pkg_resources.py", line 459, in _build_from_requirements
+is returned.
+File "build/bdist.linux-i686/egg/pkg_resources.py", line 628, in resolve
+error that occurred. Usually this will be a ``DistributionNotFound`` or
+pkg_resources.DistributionNotFound: setuptools==0.9.6
+
+因为之前的python版本为2.4的后来升级为2.7的，但是easy_install还是读取2.4的配置
+
+所以要重新做个软连接
+
+[root@localhost bin]# ln -s /usr/local/python2.7/bin/easy_install /usr/bin/easy_install
+ln: 正在创建指向“/usr/local/python2.7/bin/easy_install”的符号链接“/usr/bin/easy_install”: 文件已存在
+[root@localhost bin]# rm -rf /usr/bin/easy_install
+[root@localhost bin]# ln -s /usr/local/python2.7/bin/easy_install /usr/bin/easy_install
+
+ipython同样的原理，安装完ipython后无法使用，同样创个软连接
+
+
+[root@localhost ipython-1.2.1]# ln -s /usr/local/python2.7/bin/ipython /usr/bin/ipython
+[root@localhost ipython-1.2.1]# ipython
+Python 2.7.6 (default, Feb 14 2014, 06:05:34)
+Type "copyright", "credits" or "license" for more information.
+IPython 1.2.1 -- An enhanced Interactive Python.
+? -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help -> Python's own help system.
+object? -> Details about 'object', use 'object??' for extra details.
+In [1]:
+```
