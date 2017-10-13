@@ -1,0 +1,58 @@
+
+ 安全是运维的根本，直接关系到企业的安危，在linux上，也可以用python制作杀毒软件，当然windows也可以用
+#/usr/bin/env python
+# -*- coding: utf-8 -*-
+import time
+imporrt pyclamd
+from threading import Thread
+class Scan(Thread):
+    def __init__ (self, Ip,scan_type,file):
+        """构造方法，参数初始化"""
+        Thread.__init__(self)
+        self.IP = IP
+        self.file = file
+        self.connnstr=""
+        self.scanresult=""
+    def run(self):
+        """多进程run方法"""
+        try:
+            cd = pyclamd.ClamdNetworkSocket(self,IP,3310)#创建网络套接字对象
+            if cd.ping():                                #探测连通性
+                self.connstr=self.IP+" connnetction [OK]"
+                cd.reload()                              #重载病毒库
+                if self.scan_type=="contscan_file":      #选择不同的扫描模式
+                    self.scanresult="{0}\n".format(cd.contscan_file(self.file))
+                elif self.scan_type=="multiscan_file":
+                    self.scanresult="{0}\n".format(cd.multiscan_file(self.file))
+                elif self.scan_type=="scan_file":
+                    self.scanresult="{0}\n".format(cd.scan_file(self.file))
+                time.sleep(1)                            #线程挂起一秒
+            else:
+                self.connstr=self.IP+" ping error, exit"
+                return
+        except Exception,e:
+            self.connstr=self.IP+" "+str(e)
+IPs=['192.168.1.21','192.168.1.22']                      #扫描主机列表
+scantype="multiscan_file"                                #指定扫描模式
+scanfile="/data/www"
+i=1
+threadnum=2                                              #指定启动的线程数
+scanlist = []
+for ip in IPs:
+    currp = Scan(ip,scantype,scanfile)        #创建扫描Scan类对象，参数
+    scanlist.append(currp)                    #追加对象到列表
+    if i%threadnum==0 or i==len(IPs):
+        for task in scanlist:
+            task.start()            #启动线程
+        for task in scanlist:
+            task.join()
+            print task.connstr
+            print task.scanresult     #打印扫描结果
+        scanlist = []
+    i+=1
+
+通过EICAR()方法生成一个带有病毒特征的文件 /tmp/EICAR,代码如下：
+void = open('/tmp/EICAR','w').write(cd.EICAR())
+生成带有病毒特征的字符串内容如下，复制文件/tmp/EICAR到目标主机的扫描目录当中，以便进行测试
+#cat /tmp/EICAR
+u 'X50!P%@ap[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H' 
