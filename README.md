@@ -25,10 +25,16 @@ Python 是一门简单易学且功能强大的编程语言。它拥有高效的�
 
 [Python最佳入门学习文档](http://www.pythondoc.com/pythontutorial3/appetite.html)
 
+
 ## TOC
 
 效果如下：
 [TOC]
+
+
+这是一个脚注：[^sample_footnote]
+
+[^sample_footnote]: 这里是脚注信息
 
 
 ## Python开发新人指南
