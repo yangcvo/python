@@ -32,10 +32,6 @@ Python 是一门简单易学且功能强大的编程语言。它拥有高效的�
 [TOC]
 
 
-这是一个脚注：[^sample_footnote]
-
-[^sample_footnote]: 这里是脚注信息
-
 
 ## Python开发新人指南
 
@@ -447,6 +443,184 @@ chmod +x /usr/local/bin/sendEmail
 参考地址：搭建自己的 pip 源:http://liuliqiang.info/post/build-your-own-pip-source/
 
 ```
+
+### 10、Python包管理器安装pip+setuptools
+
+
+pip类似RedHat里面的yum,安装Python包非常方便装
+
+ 一、pip的安装（方法一）
+
+```bash
+cd  /usr/local/src
+wget "https://pypi.python.org/packages/source/p/pip/pip-1.5.4.tar.gz#md5=834b2904f92d46aaa333267fb1c922bb" --no-check-certificate
+tar -xzvf pip-1.5.4.tar.gz
+cd pip-1.5.4
+python setup.py install
+```
+
+如果上述出现`ImportError: No module named setuptools `的解决方案
+
+```bash
+cd  /usr/local/src
+wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz --no-check-certificate
+tar zxvf setuptools-0.6c11.tar.gz
+cd setuptools-0.6c11
+python setup.py build
+python setup.py install
+
+如果安装这一步出现问题：
+
+  "Compression requires the (missing) zlib module"  
+<strong>RuntimeError: Compression requires the (missing) zlib module
+出错原因：
+
+提示的很清楚，缺少 zlib模块导致安装失败
+# yum install zlib  
+# yum install zlib-devel  
+下载成功后，进入python2.7的目录，重新执行  
+# make  
+# make install  
+  
+此时先前执行的 软连接仍旧生效  
+然后进入 setuptool目录
+# python setup.py install
+```
+
+二、pip安装（方法二）
+
+```bash
+cd /usr/local/src
+wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate -O ./get-pip.py
+python get-pip.py
+```
+
+ 三、pip更换国内源地址
+
+
+```bash
+cd 
+mkdir .pip
+vim .pip/pip.conf
+
+[global]
+index-url = http://pypi.douban.com/simple
+[install]
+trusted-host = pypi.douban.com
+```
+
+
+ pip使用方法：
+
+
+```bash
+安装package
+
+pip install package-name
+
+setuptools
+列出安装的package
+pip freeze
+
+安装特定版本的package
+
+通过使用==, >=, <=, >, <来指定一个版本号。
+
+$ pip install 'package-name<2.0'
+$ pip install 'package-name>2.0,<2.0.3'
+升级包
+
+升级包到当前最新的版本，可以使用-U 或者 --upgrade
+
+$ pip install -U package-name
+卸载包
+
+$ pip uninstall package-name
+查询包
+
+pip search package-name
+```
+
+
+
+### 11、Centos 快速安装升级Python,setuptools+pip 
+
+CENTOS 6.X 系列默认安装的 Python 2.6 ，目前开发中主要是使用 Python 2.7 ，这两个版本之间还是有不少差异的，程序在 Python 2.6 下经常会出问题。
+比如： re.sub 函数 ，2.7 支持 flags 参数，而 2.6 却不支持。
+所以，打算安装 Python 2.7 来运行 Flask 应用程序，但 2.6 不能删除，因为系统对它有依赖。
+
+1、安装 sqlite-devel
+因为 Flask 应用程序可能使用能 Sqlite 数据库，所以这个得装上（之前因为没装这个，导致 Python 无法导入 sqlite3 库。
+
+当然，也可以从源码编译安装。
+
+```bash
+yum install sqlite-devel -y
+```
+
+ 2、安装 Python 2.7
+
+```bash
+yum install -y zlib-devel  gcc make
+wget https://www.python.org/ftp/python/2.7.8/Python-2.7.8.tgz
+tar xf Python-2.7.8.tgz
+cd Python-2.7.8
+./configure --prefix=/usr/local
+make && make install
+mv /usr/bin/python /usr/bin/python2.6.6 
+ln -s /usr/local/bin/python2.7 /usr/bin/python.  #做个软连接到当前用户的bin目录 
+sed -i 's|#!/usr/bin/python|#!/usr/bin/python2.6.6|g' /usr/bin/yum  #升级安装好新版本python以后，默认依然是python2.6  vim /usr/bin/yum  
+
+查看安装的新版本信息 
+python -V
+python2.9 
+```
+安装成功之后，你可以在 /usr/local/bin/python2.7 找到 Python 2.7。
+
+3、安装 setuptools + pip
+
+这里需要注意，一定要使用 python2.7 来执行相关命令。
+
+```bash
+# First get the setup script for Setuptools:
+wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
+
+# Then install it for Python 2.7 :
+python2.7 ez_setup.py
+
+# Now install pip using the newly installed setuptools:
+easy_install-2.7 pip
+
+# With pip installed you can now do things like this:
+pip2.7 install [packagename]
+pip2.7 install --upgrade [packagename]
+pip2.7 uninstall [packagename]
+```
+
+
+4、使用 virtualenv
+
+```bash
+# Install virtualenv for Python 2.7 and create a sandbox called my27project:
+pip2.7 install virtualenv
+virtualenv-2.7 my27project
+
+# Check the system Python interpreter version:
+python --version
+# This will show Python 2.6.6
+
+# Activate the my27project sandbox and check the version of the default Python interpreter in it:
+source my27project/bin/activate
+python --version
+# This will show Python 2.7.X
+deactivate
+基本就是这些了，网上很多教程都说要做软链接，但我感觉那样做或多或少会对系统有一些未知的影响。这个方法能尽量保持系统的完整性，很多自带 Python 程序其实在头部都指定了 #!/usr/bin/python ，所以它们用的其实是 Python 2.6 ，而不是新安装的 Python 2.7 。
+```
+原文：http://digwtx.duapp.com/54.html
+
+参考： http://toomuchdata.com/2014/02/16/how-to-install-python-on-centos/
+
+
 
 ### 感兴趣欢迎加入技术讨论群
 
